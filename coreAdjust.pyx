@@ -7,46 +7,46 @@ import time
 
 class CPUAdjuster:
     """
-    Classe para monitorar e ajustar dinamicamente a frequência dos núcleos da CPU.
+    Class to monitor and dynamically adjust the CPU core frequencies.
     """
     def __init__(self, list input_params):
         """
-        Inicializa o ajustador de CPU com os parâmetros fornecidos.
+        Initializes the CPU adjuster with the provided parameters.
 
-        Parâmetros:
-        - input_params: Lista de listas, onde cada lista contém:
+        Parameters:
+        - input_params: A list of lists, where each list contains:
             [min_freq, max_freq, cores, interval]
         """
         self.input_params = input_params
 
     def check_permissions(self):
         """
-        Verifica se o script tem permissões necessárias para executar alterações na CPU.
+        Checks if the script has the necessary permissions to make changes to the CPU.
         """
         if os.geteuid() != 0:
-            raise PermissionError("Permissões insuficientes! Este script precisa ser executado como root.")
+            raise PermissionError("Insufficient permissions! This script needs to be run as root.")
         if subprocess.run("which cpupower", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).returncode != 0:
-            raise FileNotFoundError("cpupower não encontrado! Certifique-se de que ele está instalado.")
+            raise FileNotFoundError("cpupower not found! Please ensure it is installed.")
 
     def adjust_frequency_to_limits(self, int min_freq, int max_freq, int core_id):
         """
-        Ajusta a frequência de um núcleo para dentro dos limites especificados.
+        Adjusts the frequency of a core to the specified limits.
 
-        Parâmetros:
-        - min_freq: Frequência mínima permitida (em MHz).
-        - max_freq: Frequência máxima permitida (em MHz).
-        - core_id: ID do núcleo a ser ajustado.
+        Parameters:
+        - min_freq: Minimum allowed frequency (in MHz).
+        - max_freq: Maximum allowed frequency (in MHz).
+        - core_id: The core ID to be adjusted.
         """
         try:
             self.check_permissions()
         except Exception as e:
-            print(f"Erro: {str(e)}")
+            print(f"Error: {str(e)}")
             return
 
-        # Obter a frequência atual do núcleo
+        # Get the current frequency of the core
         current_freq = psutil.cpu_freq(percpu=True)[core_id].current
 
-        # Ajustar a frequência para os limites especificados
+        # Adjust the frequency to the specified limits
         if current_freq < min_freq:
             subprocess.run(f"cpupower -c {core_id} frequency-set -d {min_freq}MHz -u {min_freq}MHz", shell=True)
         elif current_freq > max_freq:
@@ -54,19 +54,19 @@ class CPUAdjuster:
 
     def monitor_and_adjust(self):
         """
-        Monitora e ajusta dinamicamente os núcleos com base nos parâmetros fornecidos.
+        Monitors and dynamically adjusts the cores based on the provided parameters.
         """
         while True:
             for param_set in self.input_params:
                 min_freq, max_freq, cores, interval = param_set
 
-                # Se cores for None, ajusta todos os núcleos
+                # If cores is None, adjust all cores
                 if cores is None:
-                    cores = range(psutil.cpu_count())  # Ajusta todos os núcleos
+                    cores = range(psutil.cpu_count())  # Adjust all cores
 
-                # Ajusta cada núcleo especificado
+                # Adjust each specified core
                 for core_id in cores:
                     self.adjust_frequency_to_limits(min_freq, max_freq, core_id)
 
-            # Aguarda o intervalo antes de realizar a próxima verificação
+            # Wait for the specified interval before making the next adjustment
             time.sleep(interval)
