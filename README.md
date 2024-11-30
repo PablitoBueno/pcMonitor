@@ -57,7 +57,3 @@ CPUAdjuster Class: This class monitors and dynamically adjusts the CPU core freq
 AdjustThread Class: Runs the adjustment process in a separate thread to prevent freezing the user interface.
 CoreCanvas Class: Displays a graphical representation of CPU cores and their frequencies.
 
-Contributing
-
-Feel free to fork the repository, create issues, or send pull requests. Any improvements or bug fixes are welcome!
-License
