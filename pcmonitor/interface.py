@@ -200,6 +200,11 @@ class CoreCanvas(QWidget):
             painter.setBrush(self.core_colors[core])
             painter.drawRoundedRect(x, y, w, h, 15, 15)
 
+            # Desenha o contorno do núcleo (laranja)
+            painter.setPen(QColor("#ffa726"))  # Cor da borda laranja
+            painter.setBrush(Qt.transparent)  # Preenchimento transparente para apenas a borda
+            painter.drawRoundedRect(x, y, w, h, 15, 15)
+
             # Desenha a frequência dentro do núcleo
             painter.setPen(Qt.white)
             painter.setFont(QFont("Arial", 10, QFont.Bold))
