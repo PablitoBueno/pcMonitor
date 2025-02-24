@@ -1,59 +1,118 @@
-CPU Frequency Monitor and Adjuster
+# CPU Frequency Monitor and Adjuster
 
-This is a Python application built using PyQt5 to monitor and dynamically adjust the CPU core frequencies. The application provides an intuitive interface for adjusting the minimum and maximum frequency limits for specific CPU cores, offering real-time monitoring of CPU performance.
-Features
+This Python application, developed with **PyQt5**, is designed to monitor and dynamically adjust CPU core frequencies in real-time. Tested on Linux systems with a dual-core processor, it demonstrates how to optimize performance even in resource-limited environments while providing a modern and intuitive interface.
 
-Real-time Monitoring: View the current frequencies of up to two CPU cores.
-Dynamic Adjustment: Adjust the minimum and maximum frequencies of selected cores.
-CPU Frequency Visualization: Visual representation of CPU cores with color-coded frequency ranges.
-Multi-Core Support: Ability to adjust multiple CPU cores simultaneously.
+## Features
 
-Requirements
+- **Real-time Monitoring:**  
+  Displays the current frequencies of up to 2 CPU cores, allowing dynamic performance tracking.
 
-Python 3.x
-PyQt5: For the graphical user interface.
-psutil: For gathering system information (e.g., CPU frequencies).
-cpupower: A utility for adjusting CPU frequencies (needs to be installed on the system).
+- **Dynamic Adjustment:**  
+  Configure the minimum and maximum frequency limits for selected CPU cores, adapting performance to system conditions.
 
-Installation
+- **Graphical Visualization:**  
+  Represents core frequencies with color-coded indicators:
+  - **Blue:** Low frequency
+  - **Green:** Medium frequency
+  - **Red:** High frequency
 
-Clone the repository:
+- **Multi-Core Support (Modular):**  
+  While tested on a dual-core processor, the code structure allows scalability for systems with more cores.
 
+## Requirements
+
+- **Python 3.x**
+- **PyQt5:** Graphical user interface.
+- **psutil:** System information gathering, such as CPU frequency monitoring.
+- **cpupower:** A utility for adjusting CPU frequencies.  
+  *Ensure that cpupower is installed on your system.*
+
+## Installation and Execution
+
+### 1. Clone the Repository
+
+Clone the GitHub repository to your machine:
+
+```bash
 git clone https://github.com/PablitoBueno/coreAdjust.git
 cd cpu-frequency-adjuster
+```
 
-Install the required Python libraries:
+### 2. Install Python Dependencies
 
+Install the required libraries using pip:
+
+```bash
 pip install psutil PyQt5
+```
 
-Ensure that cpupower is installed on your system. You can install it using your package manager:
+### 3. Install cpupower
 
-On Ubuntu/Debian-based systems:
+For Ubuntu/Debian-based systems, install cpupower using:
 
+```bash
 sudo apt-get install linux-tools-common linux-tools-$(uname -r)
+```
 
-Run the application:
+### 4. Run the Application
 
+Launch the application with:
+
+```bash
 python cpu_adjuster_interface.py
+```
 
-Usage
-Adjusting Frequencies
+## Usage
 
-The application will display a graphical interface with options to set the minimum and maximum frequencies for the CPU cores.
-Enter the desired minimum and maximum frequency (in MHz) for the cores you want to adjust.
-Press the "Adjust Frequency" button to apply the changes.
+### Adjusting Frequencies
 
-Real-time Monitoring
+1. **Intuitive Interface:**  
+   Upon launching, the graphical interface displays options to set frequency limits.
 
-The application updates the frequency of each core in real time and provides a visual representation of the frequency using color-coded indicators:
+2. **Configuring Values:**  
+   Enter the desired minimum and maximum frequency values (in MHz) for the selected CPU cores.
 
-Low frequency: Blue
-Medium frequency: Green
-High frequency: Red
+3. **Applying Changes:**  
+   Click the **"Adjust Frequency"** button to update CPU core frequencies in real time.
 
-How It Works
+### Real-time Monitoring
 
-CPUAdjuster Class: This class monitors and dynamically adjusts the CPU core frequencies based on the provided parameters (minimum and maximum frequencies, cores, and interval).
-AdjustThread Class: Runs the adjustment process in a separate thread to prevent freezing the user interface.
-CoreCanvas Class: Displays a graphical representation of CPU cores and their frequencies.
+- **Continuous Updates:**  
+  The application constantly updates displayed frequencies for each core.
+  
+- **Visualization with CoreCanvas:**  
+  The visualization panel uses a color-coded system to indicate frequency states:
+  - **Blue:** Low frequency
+  - **Green:** Medium frequency
+  - **Red:** High frequency
+
+## Internal Functionality
+
+- **CPUAdjuster Class:**  
+  Responsible for monitoring and adjusting core frequencies based on user-defined parameters (minimum and maximum limits, selected cores, and update interval). Even on a dual-core processor, this class efficiently manages resources.
+
+- **AdjustThread Class:**  
+  Runs the adjustment process in a separate thread, ensuring that the user interface remains responsive during frequency modifications.
+
+- **CoreCanvas Class:**  
+  Handles graphical rendering of CPU cores and their frequencies, using color indicators for clear performance visualization.
+
+## Considerations on System Limitations
+
+- **Linux Environment:**  
+  Developed and tested specifically for Linux systems, the application relies on native tools like cpupower for frequency adjustments.
+
+- **Dual-Core Processor:**  
+  Despite hardware limitations, the application offers:
+  - **Precise Monitoring:** Real-time tracking of the dual-core CPU frequency.
+  - **Efficient Adjustments:** Smooth frequency management even with limited resources.
+  - **Simple and Modern UI:** A practical solution that can be expanded for multi-core systems, showcasing the scalability of the design.
+
+## Contributions
+
+Contributions are welcome! If you have suggestions, bug fixes, or new features, feel free to open an issue or submit a pull request.
+
+## License
+
+*(Include license information here, if applicable.)*
 
